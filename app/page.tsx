@@ -18,7 +18,7 @@ export default function Home() {
 
       const data = await response.json();
       setAnswer(data.answer || "Không nhận được phản hồi từ backend.");
-    } catch (error: any) {
+    } catch (error: unknown) {
       setAnswer("Có lỗi xảy ra: " + error.message);
     } finally {
       setLoading(false);
