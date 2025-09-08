@@ -10,7 +10,7 @@ export default function Home() {
     if (!question.trim()) return;
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:8000/get-weather", {
+      const response = await fetch("https://backend-weather-chatbot-3.onrender.com/get-weather", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question }),

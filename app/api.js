@@ -1,6 +1,6 @@
 export async function askBot(message) {
   try {
-    const response = await fetch("http://127.0.0.1:8000/ask", {
+    const response = await fetch("https://backend-weather-chatbot-3.onrender.com/ask", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
