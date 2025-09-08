@@ -9,17 +9,29 @@ export default function Home() {
   const askBackend = async () => {
     if (!question.trim()) return;
     setLoading(true);
-    try {
-      const response = await fetch("https://backend-weather-chatbot-3.onrender.com/get-weather", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question }),
-      });
 
-      const data = await response.json();
+    try {
+      const response = await fetch(
+        "https://backend-weather-chatbot-3.onrender.com/get-weather",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`API lỗi: ${response.status} ${response.statusText}`);
+      }
+
+      const data: { answer?: string } = await response.json();
       setAnswer(data.answer || "Không nhận được phản hồi từ backend.");
     } catch (error: unknown) {
-      setAnswer("Có lỗi xảy ra: " + error.message);
+      if (error instanceof Error) {
+        setAnswer("Có lỗi xảy ra: " + error.message);
+      } else {
+        setAnswer("Có lỗi xảy ra: Không xác định lỗi");
+      }
     } finally {
       setLoading(false);
     }
@@ -52,7 +64,9 @@ export default function Home() {
           {answer ? (
             <p className="whitespace-pre-line">{answer}</p>
           ) : (
-            <p className="text-gray-400 italic">Câu trả lời sẽ hiển thị ở đây...</p>
+            <p className="text-gray-400 italic">
+              Câu trả lời sẽ hiển thị ở đây...
+            </p>
           )}
         </div>
       </div>
